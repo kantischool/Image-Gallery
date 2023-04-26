@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id("com.google.dagger.hilt.android")
+    id 'kotlin-kapt'
 }
 
 android {
@@ -71,4 +73,8 @@ dependencies {
     // Image loading library landscapist (it has three options Glide, Coil, Fresco)
     implementation "com.github.skydoves:landscapist-bom:2.1.0"
     implementation "com.github.skydoves:landscapist-glide"
+
+    // hilt dependency added
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 }
