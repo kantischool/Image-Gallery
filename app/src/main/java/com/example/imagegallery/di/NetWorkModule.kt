@@ -2,6 +2,8 @@ package com.example.imagegallery.di
 
 import com.example.imagegallery.ApiInterface.ImageApi
 import com.example.imagegallery.Constant
+import com.example.imagegallery.ImageRepoImpl
+import com.example.imagegallery.repo.ImageRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,4 +31,7 @@ class NetWorkModule {
     fun provideImageApi(retrofit: Retrofit): ImageApi{
         return retrofit.create(ImageApi::class.java)
     }
+
+    @Provides
+    fun provideUserRepository(api: ImageApi): ImageRepoImpl = ImageRepo(api)
 }
