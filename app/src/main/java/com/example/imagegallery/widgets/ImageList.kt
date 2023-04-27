@@ -26,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.input.pointer.PointerIconDefaults.Text
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.SemanticsProperties.Text
 import androidx.compose.ui.text.input.KeyboardType.Companion.Text
@@ -42,41 +41,37 @@ import com.example.imagegallery.modals.SinglePhotoX
 
 @Composable
 fun ImageList(viewModel: ImageViewModal){
+
     val imgData: LazyPagingItems<SinglePhotoX> = viewModel.imagePager.collectAsLazyPagingItems()
 
-//    LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 100.dp)){
-//        items(imgData){
-//
-//        }
-//    }
-    
-    
-    LazyColumn{
-        items(imgData){ item ->
-            item?.let { SoloImage(data = it) }
+    LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 100.dp), modifier = Modifier.padding(top = 70.dp)){
+        items(imgData.itemCount){item ->
 
-            when (imgData.loadState.append) {
-                is LoadState.NotLoading -> Unit
-                LoadState.Loading -> {
-                    LoadingItem()
-                }
-                is LoadState.Error -> {
-                    ErrorItem(message = (imgData.loadState.append as LoadState.Error).error.message.toString())
-                }
-            }
+            imgData[item]?.let { SoloImage(it) }
+        }
 
-            when (imgData.loadState.refresh) {
-                is LoadState.NotLoading -> Unit
-                LoadState.Loading -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-                is LoadState.Error -> TODO()
+        when (imgData.loadState.append) {
+            is LoadState.NotLoading -> Unit
+            LoadState.Loading -> {
+               item {  LoadingItem() }
             }
+            is LoadState.Error -> {
+                item {  ErrorItem(message = (imgData.loadState.append as LoadState.Error).error.message.toString()) }
+            }
+        }
+
+        when (imgData.loadState.refresh) {
+            is LoadState.NotLoading -> Unit
+            LoadState.Loading -> {
+                item {  Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Center
+                ) {
+                    CircularProgressIndicator()
+                } }
+
+            }
+            is LoadState.Error -> TODO()
         }
     }
 }
