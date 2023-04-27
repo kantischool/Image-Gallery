@@ -1,6 +1,7 @@
 package com.example.imagegallery.di
 
 import com.example.imagegallery.ApiInterface.ImageApi
+import com.example.imagegallery.Constant
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +18,9 @@ class NetWorkModule {
     @Provides
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
+   //         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("")
+            .baseUrl(Constant.BASE_URL)
             .build()
     }
 
