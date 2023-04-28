@@ -30,7 +30,6 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // imgViewModel.getImages()
         setContent {
             ImageGalleryTheme {
                 // A surface container using the 'background' color from the theme
@@ -63,14 +62,10 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     ) {
-                        NavigationGraph(navController = navController, viewModal = imgViewModel, openDrawer)
+                        NavigationGraph(navController = navController, viewModal = imgViewModel, openDrawer, this)
                     }
                   //  ImageList(imgViewModel)
-//                    LazyVerticalGrid(columns =GridCells.Adaptive(minSize = 100.dp)) {
-//                        items(imgaes) { item ->
-//                            SoloImage(data = item)
-//                        }
-//                    }
+
 
                 }
             }

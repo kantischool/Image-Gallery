@@ -1,5 +1,7 @@
 package com.example.imagegallery
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -8,6 +10,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -17,40 +22,38 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
-import com.example.imagegallery.widgets.ImageList
+import androidx.lifecycle.Observer
+import com.example.imagegallery.modals.SinglePhotoX
+import com.example.imagegallery.modals.SingleSearchImage
+import com.example.imagegallery.widgets.LoadingItem
+import com.example.imagegallery.widgets.SoloImage
 
 @Composable
-fun SearchScreen(viewModal: ImageViewModal){
+fun SearchScreen(viewModal: ImageViewModal, ctx: Context){
     Column {
-        SearchBar()
-        ImageList(viewModel = viewModal)
+        SearchBar(viewModal)
+        SearchImageList(viewModel = viewModal, ctx)
     }
 
 }
 
 @Composable
-fun SearchBar() {
+fun SearchBar(viewModal: ImageViewModal) {
     val state = rememberSaveable(stateSaver = TextFieldValue.Saver) {
         mutableStateOf(TextFieldValue(""))
     }
-
-//    val tempViewModel = ViewModelProvider(
-//        LocalContext.current as TemplateActivity,
-//        TemplateViewModelFactory(getLanguageIso(LocalContext.current))
-//    )[TemplateViewModel::class.java]
 
     Box(
         modifier = Modifier
@@ -63,7 +66,8 @@ fun SearchBar() {
         BasicTextField(value = state.value,
             onValueChange = {
                 state.value = it
-              //  tempViewModel.searchNow(it.text)
+                viewModal.searchImage(state.value.toString())
+
             },
             modifier = Modifier
                 .heightIn(min = 45.dp)
@@ -102,7 +106,7 @@ fun SearchBar() {
                             modifier = Modifier
                                 .clickable {
                                     state.value = TextFieldValue("")
-                               //     tempViewModel.searchNow("")
+                                    //     tempViewModel.searchNow("")
 
                                 }
                                 .testTag("clear_search"))
@@ -110,4 +114,75 @@ fun SearchBar() {
                 }
             })
     }
+}
+
+@Composable
+fun SearchImageList(viewModel: ImageViewModal, ctx: Context){
+    // val imgData: LazyPagingItems<SinglePhotoX> = viewModel.imageSearchPager.collectAsLazyPagingItems()
+    val images = remember {
+        mutableStateListOf<SinglePhotoX>()
+    }
+    val isLoading = remember {
+        mutableStateOf(false)
+    }
+    viewModel.imageData.observe(ctx as MainActivity, Observer {
+        when(it){
+            is NetWorkResult.Loading -> {
+               isLoading.value = true
+            }
+            is NetWorkResult.Error -> {
+                Toast.makeText(ctx, "Error image", Toast.LENGTH_SHORT).show()
+            }
+            is NetWorkResult.Success -> {
+                println( "kanti response ${it.data?.photos?.photo.toString()}")
+                isLoading.value = false
+                it.data?.photos?.photo.let { it1 ->
+                    images.clear()
+                    if (it1 != null) {
+                        images.addAll(it1)
+                    }
+                }
+            }
+        }
+    })
+
+    LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 100.dp)) {
+        items(images) { item ->
+            SoloImage(data = item)
+        }
+    }
+    if (isLoading.value)
+        LoadingItem()
+
+
+//    LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 100.dp), modifier = Modifier.padding(top = 70.dp)){
+//        items(imgData.itemCount){item ->
+//
+//            imgData[item]?.let { SoloImage(it) }
+//        }
+//
+//        when (imgData.loadState.append) {
+//            is LoadState.NotLoading -> Unit
+//            LoadState.Loading -> {
+//                item {  LoadingItem() }
+//            }
+//            is LoadState.Error -> {
+//                item {  ErrorItem(message = (imgData.loadState.append as LoadState.Error).error.message.toString()) }
+//            }
+//        }
+//
+//        when (imgData.loadState.refresh) {
+//            is LoadState.NotLoading -> Unit
+//            LoadState.Loading -> {
+//                item {  Box(
+//                    modifier = Modifier.fillMaxSize(),
+//                    contentAlignment = Center
+//                ) {
+//                    CircularProgressIndicator()
+//                } }
+//
+//            }
+//            is LoadState.Error -> TODO()
+//        }
+//    }
 }

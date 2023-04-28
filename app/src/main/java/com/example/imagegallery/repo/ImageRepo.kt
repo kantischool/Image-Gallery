@@ -9,7 +9,7 @@ import com.example.imagegallery.modals.FlickrResponse
 import retrofit2.Response
 import javax.inject.Inject
 
-class ImageRepo (private val imageApi: ImageApi) : ImageRepoImpl {
+class ImageRepo @Inject constructor (private val imageApi: ImageApi) : ImageRepoImpl {
 
     private val _imageData: MutableLiveData<NetWorkResult<FlickrResponse>> = MutableLiveData()
     val imageData: LiveData<NetWorkResult<FlickrResponse>> get() = _imageData
@@ -24,18 +24,22 @@ class ImageRepo (private val imageApi: ImageApi) : ImageRepoImpl {
         return imageApi.fetchImage(page)
     }
 
-//    {
-//        _imageData.postValue(NetWorkResult.Loading())
-//        val response = imageApi.fetchImage(page)
-//
-//        if (response.isSuccessful && response.body() != null){
-//            _imageData.postValue(NetWorkResult.Success(response.body()!!))
-//        }
-//        else if(response.errorBody() != null){
-//            _imageData.postValue(NetWorkResult.Error("Some thing went Wrong"))
-//        }
-//        else{
-//            _imageData.postValue(NetWorkResult.Error("Some thing went Wrong"))
-//        }
-//    }
+    override suspend fun loadSearchImages(page: Int, catName: String): Response<FlickrResponse> {
+        return imageApi.fetchSearchImage(catName)
+    }
+
+    suspend fun searchImages(catName: String) {
+        _imageData.postValue(NetWorkResult.Loading())
+        val response = imageApi.fetchSearchImage(catName)
+
+        if (response.isSuccessful && response.body() != null){
+            _imageData.postValue(NetWorkResult.Success(response.body()!!))
+        }
+        else if(response.errorBody() != null){
+            _imageData.postValue(NetWorkResult.Error("Some thing went Wrong"))
+        }
+        else{
+            _imageData.postValue(NetWorkResult.Error("Some thing went Wrong"))
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.imagegallery
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,14 +11,15 @@ import kotlinx.coroutines.Job
 fun NavigationGraph(
     navController: NavHostController,
     viewModal: ImageViewModal,
-    openDrawer: () -> Job
+    openDrawer: () -> Job,
+    ctx: Context
 ) {
     NavHost(navController, startDestination = DrawerScreens.Home.route) {
         composable(DrawerScreens.Home.route) {
             HomeScreen(viewModal, openDrawer)
         }
         composable(DrawerScreens.Search.route) {
-            SearchScreen(viewModal)
+            SearchScreen(viewModal, ctx)
         }
     }
 }
