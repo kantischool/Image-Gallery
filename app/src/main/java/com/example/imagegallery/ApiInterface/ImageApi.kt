@@ -12,5 +12,5 @@ interface ImageApi {
     suspend fun fetchImage(@Query("page") pageNo: Int) : Response<FlickrResponse>
 
     @GET("?method=flickr.photos.search&api_key=9150f9f8653b0f6c1e81928665476c3a&format=json&nojsoncallback=1&extras=url_s&text=cat")
-    suspend fun fetchSearchImage(@Query("text") catName: String) : Response<FlickrResponse>
+    suspend fun fetchSearchImage(@Query("text") text: String) : Response<FlickrResponse>
 }

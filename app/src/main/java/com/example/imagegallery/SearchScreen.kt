@@ -55,6 +55,10 @@ fun SearchBar(viewModal: ImageViewModal) {
         mutableStateOf(TextFieldValue(""))
     }
 
+    val name = remember {
+        mutableStateOf("")
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,7 +70,7 @@ fun SearchBar(viewModal: ImageViewModal) {
         BasicTextField(value = state.value,
             onValueChange = {
                 state.value = it
-                viewModal.searchImage(state.value.toString())
+                viewModal.searchImage(state.value.text)
 
             },
             modifier = Modifier
@@ -105,7 +109,9 @@ fun SearchBar(viewModal: ImageViewModal) {
                             contentDescription = "clear",
                             modifier = Modifier
                                 .clickable {
-                                    state.value = TextFieldValue("")
+                                  //  viewModal.searchImage(state.value.toString())
+                                       state.value = TextFieldValue("")
+                                    viewModal.searchImage(state.value.text)
                                     //     tempViewModel.searchNow("")
 
                                 }

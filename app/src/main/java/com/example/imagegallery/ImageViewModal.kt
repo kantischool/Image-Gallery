@@ -16,14 +16,14 @@ import javax.inject.Inject
 class ImageViewModal@Inject constructor(private val imageRepo: ImageRepoImpl, val imgRepo: ImageRepo): ViewModel() {
     val imageData get() = imgRepo.imageData
 
-    fun searchImage(catName: String){
+    fun searchImage(cat: String){
         viewModelScope.launch{
-            imgRepo.searchImages(catName)
+            imgRepo.searchImages(cat)
         }
     }
 
     val imagePager = Pager(PagingConfig(pageSize = 5)) {
-        ImageDataSource(imageRepo, null)
+        ImageDataSource(imageRepo)
     }.flow.cachedIn(viewModelScope)
 
 //    val imageSearchPager = Pager(PagingConfig(pageSize = 5)) {
