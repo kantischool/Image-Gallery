@@ -41,9 +41,9 @@ fun SoloImage(data: SinglePhotoX){
         },
         loading = {
             Image(
-                painter = painterResource(R.drawable.error_image),
+                painter = painterResource(R.drawable.ic_loading),
                 contentDescription = "Image Loading",
-                modifier = Modifier.size(100.dp)
+                modifier = Modifier.size(50.dp)
             )
         })
 }
