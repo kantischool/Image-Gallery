@@ -36,7 +36,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Observer
 import com.example.imagegallery.modals.SinglePhotoX
-import com.example.imagegallery.modals.SingleSearchImage
 import com.example.imagegallery.widgets.LoadingItem
 import com.example.imagegallery.widgets.SoloImage
 
@@ -109,10 +108,8 @@ fun SearchBar(viewModal: ImageViewModal) {
                             contentDescription = "clear",
                             modifier = Modifier
                                 .clickable {
-                                  //  viewModal.searchImage(state.value.toString())
                                        state.value = TextFieldValue("")
                                     viewModal.searchImage(state.value.text)
-                                    //     tempViewModel.searchNow("")
 
                                 }
                                 .testTag("clear_search"))
@@ -160,35 +157,4 @@ fun SearchImageList(viewModel: ImageViewModal, ctx: Context){
     if (isLoading.value)
         LoadingItem()
 
-
-//    LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 100.dp), modifier = Modifier.padding(top = 70.dp)){
-//        items(imgData.itemCount){item ->
-//
-//            imgData[item]?.let { SoloImage(it) }
-//        }
-//
-//        when (imgData.loadState.append) {
-//            is LoadState.NotLoading -> Unit
-//            LoadState.Loading -> {
-//                item {  LoadingItem() }
-//            }
-//            is LoadState.Error -> {
-//                item {  ErrorItem(message = (imgData.loadState.append as LoadState.Error).error.message.toString()) }
-//            }
-//        }
-//
-//        when (imgData.loadState.refresh) {
-//            is LoadState.NotLoading -> Unit
-//            LoadState.Loading -> {
-//                item {  Box(
-//                    modifier = Modifier.fillMaxSize(),
-//                    contentAlignment = Center
-//                ) {
-//                    CircularProgressIndicator()
-//                } }
-//
-//            }
-//            is LoadState.Error -> TODO()
-//        }
-//    }
 }

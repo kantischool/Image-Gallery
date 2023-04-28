@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                                         drawerState.close()
                                     }
                                     navController.navigate(route) {
-                                       // navController.graph.startDestinationRoute?.let { popUpTo(it) }
+                                        navController.graph.startDestinationRoute?.let { popUpTo(it) }
                                     }
                                 }
                             )
@@ -64,9 +64,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         NavigationGraph(navController = navController, viewModal = imgViewModel, openDrawer, this)
                     }
-                  //  ImageList(imgViewModel)
-
-
+                    
                 }
             }
         }

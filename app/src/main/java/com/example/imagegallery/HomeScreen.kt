@@ -23,26 +23,17 @@ import kotlinx.coroutines.Job
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(viewModal: ImageViewModal, openDrawer: () -> Job){
+fun HomeScreen(viewModal: ImageViewModal, openDrawer: () -> Job) {
     Scaffold(topBar = {
-        CenterAlignedTopAppBar(title = {
-            Text(
-                text = "Images", fontSize = 22.sp, fontWeight = FontWeight.Bold
-            )
-        }, navigationIcon = {
-            IconButton(onClick = { }) {
-                Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Localized description",
-                    modifier = Modifier.clickable {
-                        openDrawer
-                    }
+        CenterAlignedTopAppBar(
+            title = {
+                Text(
+                    text = "Images", fontSize = 22.sp, fontWeight = FontWeight.Bold
                 )
-            }
-        },
+            },
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(Color.White)
         )
-    }){
+    }) {
         ImageList(viewModel = viewModal)
     }
 }

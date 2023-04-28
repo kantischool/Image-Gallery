@@ -24,10 +24,6 @@ class ImageRepo @Inject constructor (private val imageApi: ImageApi) : ImageRepo
         return imageApi.fetchImage(page)
     }
 
-//    override suspend fun loadSearchImages(page: Int, catName: String): Response<FlickrResponse> {
-//        return imageApi.fetchSearchImage(catName)
-//    }
-
     suspend fun searchImages(cat: String) {
         _imageData.postValue(NetWorkResult.Loading())
         val response = imageApi.fetchSearchImage(cat)

@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ImageViewModal@Inject constructor(private val imageRepo: ImageRepoImpl, val imgRepo: ImageRepo): ViewModel() {
+class ImageViewModal@Inject constructor(private val imageRepo: ImageRepoImpl, private val imgRepo: ImageRepo): ViewModel() {
     val imageData get() = imgRepo.imageData
 
     fun searchImage(cat: String){
@@ -25,8 +25,4 @@ class ImageViewModal@Inject constructor(private val imageRepo: ImageRepoImpl, va
     val imagePager = Pager(PagingConfig(pageSize = 5)) {
         ImageDataSource(imageRepo)
     }.flow.cachedIn(viewModelScope)
-
-//    val imageSearchPager = Pager(PagingConfig(pageSize = 5)) {
-//        ImageDataSource(imageRepo, catName)
-//    }.flow.cachedIn(viewModelScope)
 }

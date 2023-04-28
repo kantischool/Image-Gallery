@@ -20,7 +20,6 @@ class NetWorkModule {
     @Provides
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-   //         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(Constant.BASE_URL)
             .build()
