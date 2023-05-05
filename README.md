@@ -1,0 +1,12 @@
+# ImageGallery-Compose
+- This is the image gallery app.
+- I buildt this app using Flickr Image API.
+- There is 2 page in navigation drawer, 1) Home 2)Search Image
+- In home page recently added image comes from api.
+- I used pagination to load more images. (Paging 3 Library).
+- In "Search Image" page you can search images of your choice. and it fetch related images from api.
+- To manage code base i used MVVM architecture.
+- I also used dependency injection (Hilt / Dagger).
+- Coroutine are also used for background related task.
+- For API call i have used Retrofit2 library.
+- For image loading i have used Glide library.
