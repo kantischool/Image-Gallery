@@ -1,4 +1,4 @@
-# Image-Gallery
+# Image-Gallery- Compose
 - This is the image gallery app.
 - I buildt this app using Flickr Image API.
 - There is 2 page in navigation drawer, 1) Home 2)Search Image
